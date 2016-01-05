@@ -1,4 +1,19 @@
 // gocfs
+/*
+Copyright 2015-2016 Thingswise, LLC and contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package main
 
 import (
@@ -150,14 +165,14 @@ func initStorage(session *gocql.Session) error {
 	if err := session.Query("CREATE KEYSPACE IF NOT EXISTS fuse WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };").Exec(); err != nil {
 		return err
 	}
-	if err := session.Query(`CREATE TABLE IF NOT EXISTS fuse.filesystem ( 
+	if err := session.Query(`CREATE TABLE IF NOT EXISTS fuse.filesystem (
           filename text,
           entry    text,
           created  bigint,
           modified bigint,
           access   bigint,
           block    int,
-          data     blob,          
+          data     blob,
           is_dir   boolean,
           PRIMARY KEY(filename, block, entry));`).Exec(); err != nil {
 		log.Error(err.Error())
